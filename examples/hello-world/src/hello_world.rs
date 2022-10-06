@@ -33,30 +33,34 @@ impl Plugin for HelloWorld {
         })
     }
 
-    fn supergraph_service(&self, service: supergraph::BoxService) -> supergraph::BoxService {
-        // Say hello when our service is added to the router_service
-        // stage of the router plugin pipeline.
-        #[cfg(test)]
-        println!("Hello {}", self.configuration.name);
-        #[cfg(not(test))]
-        tracing::info!("Hello {}", self.configuration.name);
-        // Always use service builder to compose your plugins.
-        // It provides off the shelf building blocks for your plugin.
-        ServiceBuilder::new()
-            // .map_request()
-            // .map_response()
-            // .rate_limit()
-            // .checkpoint()
-            // .timeout()
-            .service(service)
-            .boxed()
-    }
+    // fn supergraph_service(&self, service: supergraph::BoxService) -> supergraph::BoxService {
+    //     // Say hello when our service is added to the router_service
+    //     // stage of the router plugin pipeline.
+    //     #[cfg(test)]
+    //     println!("Hello {}", self.configuration.name);
+    //     #[cfg(not(test))]
+    //     tracing::info!("Hello {}", self.configuration.name);
+    //     // Always use service builder to compose your plugins.
+    //     // It provides off the shelf building blocks for your plugin.
+    //     ServiceBuilder::new()
+    //         // .map_request()
+    //         // .map_response()
+    //         // .rate_limit()
+    //         // .checkpoint()
+    //         // .timeout()
+    //         .service(service)
+    //         .boxed()
+    // }
 
     fn execution_service(&self, service: execution::BoxService) -> execution::BoxService {
         //This is the default implementation and does not modify the default service.
         // The trait also has this implementation, and we just provide it here for illustration.
-        service
+        println!("Hello!!!");
+        ServiceBuilder::new()
+            .service(service)
+            .boxed()
     }
+    
 
     // Called for each subgraph
     fn subgraph_service(&self, _name: &str, service: subgraph::BoxService) -> subgraph::BoxService {
